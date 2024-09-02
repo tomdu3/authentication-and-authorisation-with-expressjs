@@ -177,10 +177,55 @@ const update_user_profile = async (req, res) => {
   }
 };
 
+const delete_user_by_username = async (req, res) => {
+  try {
+    const username = req.params.username || req.user.username;
+    const isCurrentUser = username === req.user.username;
+
+    // Find the user by username
+    let user = await UserModel.findOne({ where: { username: username } });
+    
+    // If user not found, return a 400 response
+    if (!user) {
+      return res.status(400).send({
+        ok: false,
+        status: 400,
+        message: "User account not found",
+      });
+    }
+
+    // Delete the user
+    await UserModel.destroy({ where: { username: username } });
+
+    // Return appropriate response
+    if (isCurrentUser) {
+      return res.status(200).json({
+        ok: true,
+        status: 200,
+        message: "Your account has been deleted.",
+      });
+    } else {
+      return res.status(200).json({
+        ok: true,
+        status: 200,
+        message: `Acccount of ${username} has been deleted.`,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({
+      status: 500,
+      ok: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
 module.exports = {
   login,
   logout,
   register,
   load_user_profile,
   update_user_profile,
+  delete_user_by_username
 };

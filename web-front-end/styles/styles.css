@@ -104,3 +104,7 @@ button:hover {
 .button-delete {
   background-color: red;
 }
+
+.button-delete:hover {
+  background-color: darkred;
+}

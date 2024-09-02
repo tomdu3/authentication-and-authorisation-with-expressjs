@@ -100,3 +100,7 @@ button:hover {
 * {
   box-sizing: border-box;
 }
+
+.button-delete {
+  background-color: red;
+}

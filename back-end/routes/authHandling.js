@@ -18,4 +18,8 @@ router.put("/user", authentication, authorisation("user"), (req, res) =>
   authController.update_user_profile(req, res),
 );
 
+router.delete("/user/:username", authentication, authorisation("user"), (req, res) =>
+  authController.delete_user_by_username(req, res),
+);
+
 module.exports = router;

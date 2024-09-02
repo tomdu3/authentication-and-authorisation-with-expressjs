@@ -5,19 +5,36 @@ body {
   background-color: #f4f4f9;
 }
 
-h1 {
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: top;
+  justify-content:space-evenly;
+  max-width: 400px;
+  margin: 10px auto;
+}
+
+h1,h2 {
   text-align: center;
   color: #333;
   margin-top: 20px;
 }
 
+h2 {
+  font-size: large;
+}
+
 form {
   max-width: 400px;
-  margin: 20px auto;
+  margin: 20px auto 0 auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.delete-form {
+  margin: 5px auto;
 }
 
 label {

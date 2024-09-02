@@ -21,24 +21,20 @@
       <br />
       <button type="submit">Update Profile</button>
     </form>
-
-    <hr />
-
-    <form id="delete-this-user-form">
+    <div class="container">
+    <form class="delete-form" id="delete-this-user-form">
       <h2>Delete Your Account</h2>
       <button class="button-delete" type="submit">Delete This User</button>
     </form>
 
-    <hr />
-
-    <form id="delete-other-user-form">
+    <form class="delete-form"id="delete-other-user-form">
       <h2>Delete Other Account</h2>
-      <label for="other-username">Username to Delete:</label>
-      <input type="text" id="other-username" name="other-username" required />
+      <label for="other-username" style="display: none;">Username to Delete:</label>
+      <input type="text" id="other-username" name="other-username" placeholder="Username to Delete" />
       <br />
       <button class="button-delete" type="submit">Delete Other User</button>
     </form>
-
+  </div>
     <script>
       let currentUsername = "";
       async function loadUserProfile() {

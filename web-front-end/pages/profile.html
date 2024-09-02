@@ -22,7 +22,25 @@
       <button type="submit">Update Profile</button>
     </form>
 
+    <hr />
+
+    <form id="delete-this-user-form">
+      <h2>Delete Your Account</h2>
+      <button class="button-delete" type="submit">Delete This User</button>
+    </form>
+
+    <hr />
+
+    <form id="delete-other-user-form">
+      <h2>Delete Other Account</h2>
+      <label for="other-username">Username to Delete:</label>
+      <input type="text" id="other-username" name="other-username" required />
+      <br />
+      <button class="button-delete" type="submit">Delete Other User</button>
+    </form>
+
     <script>
+      let currentUsername = "";
       async function loadUserProfile() {
         const response = await fetch("http://127.0.0.1:4001/auth/user", {
           credentials: "include",
@@ -33,6 +51,7 @@
           window.location.href = "./index.html";
           return;
         }
+        currentUsername = user.username;
         document.getElementById("username").value = user.username;
         document.getElementById("contact_number").value = user.contact_number;
         document.getElementById("email").value = user.email;
@@ -46,19 +65,51 @@
           const contact_number =
             document.getElementById("contact_number").value;
           const email = document.getElementById("email").value;
-          const response = await fetch("http://127.0.0.1:4001/auth/user", {
+          const response = await fetch("http://127.0.0.1:4001/auth/user/", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, email, contact_number }),
             credentials: "include",
           });
           const result = await response.json();
-          // handle response
           if (result.ok) {
             alert("Profile updated successfully");
-            return;
           } else {
             alert(result.message);
+          }
+        });
+
+      document
+        .getElementById("delete-this-user-form")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const response = await fetch(`http://127.0.0.1:4001/auth/user/${currentUsername}`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+          if (response.ok) {
+            alert("Your account has been deleted.");
+            window.location.href = "./index.html";
+          } else {
+            const result = await response.json();
+            alert(result.message || "Failed to delete your account.");
+          }
+        });
+
+      document
+        .getElementById("delete-other-user-form")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const username = document.getElementById("other-username").value;
+          const response = await fetch(`http://127.0.0.1:4001/auth/user/${username}`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+          if (response.ok) {
+            alert(`User ${username} has been deleted.`);
+          } else {
+            const result = await response.json();
+            alert(result.message || `Failed to delete user ${username}.`);
           }
         });
 
